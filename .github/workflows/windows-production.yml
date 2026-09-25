@@ -42,7 +42,7 @@ jobs:
           $lines = @()
           foreach ($p in @($installer,$portable,$asar)) {
             $h = (Get-FileHash -Algorithm SHA256 $p).Hash
-            $lines += "$h  $($p.Substring($env:GITHUB_WORKSPACE.Length + 1).Replace('','/'))"
+            $lines += "$h  $($p.Substring($env:GITHUB_WORKSPACE.Length + 1).Replace('\','/'))"
           }
           $lines | Set-Content -Encoding utf8 (Join-Path $dir "SHA256SUMS.txt")
       - name: Upload installer
