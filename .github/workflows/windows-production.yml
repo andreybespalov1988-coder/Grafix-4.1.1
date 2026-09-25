@@ -29,20 +29,43 @@ jobs:
         run: npm run test:security
       - name: Build Windows
         run: npm run dist:win -- --publish never
-      - name: Verify packaged files
+      - name: Verify packaged files and hashes
         shell: pwsh
         run: |
           $dir = Join-Path $env:GITHUB_WORKSPACE "release"
-          if (!(Test-Path (Join-Path $dir "Grafix-4.1-Setup.exe"))) { throw "Installer missing" }
-          if (!(Test-Path (Join-Path $dir "Grafix-4.1-Portable.exe"))) { throw "Portable missing" }
+          $installer = Join-Path $dir "Grafix-4.1-Setup.exe"
+          $portable = Join-Path $dir "Grafix-4.1-Portable.exe"
           $asar = Join-Path $dir "win-unpacked/resources/app.asar"
+          if (!(Test-Path $installer)) { throw "Installer missing" }
+          if (!(Test-Path $portable)) { throw "Portable missing" }
           if (!(Test-Path $asar)) { throw "app.asar missing" }
-      - name: Upload production artifacts
+          $lines = @()
+          foreach ($p in @($installer,$portable,$asar)) {
+            $h = (Get-FileHash -Algorithm SHA256 $p).Hash
+            $lines += "$h  $($p.Substring($env:GITHUB_WORKSPACE.Length + 1).Replace('','/'))"
+          }
+          $lines | Set-Content -Encoding utf8 (Join-Path $dir "SHA256SUMS.txt")
+      - name: Upload installer
         uses: actions/upload-artifact@v4
         with:
-          name: Grafix-4.1.2-Windows
-          path: |
-            release/Grafix-4.1-Setup.exe
-            release/Grafix-4.1-Portable.exe
-            release/win-unpacked/**
+          name: Grafix-4.1.2-Installer
+          path: release/Grafix-4.1-Setup.exe
+          if-no-files-found: error
+      - name: Upload portable
+        uses: actions/upload-artifact@v4
+        with:
+          name: Grafix-4.1.2-Portable
+          path: release/Grafix-4.1-Portable.exe
+          if-no-files-found: error
+      - name: Upload unpacked build
+        uses: actions/upload-artifact@v4
+        with:
+          name: Grafix-4.1.2-win-unpacked
+          path: release/win-unpacked/**
+          if-no-files-found: error
+      - name: Upload hashes
+        uses: actions/upload-artifact@v4
+        with:
+          name: Grafix-4.1.2-SHA256
+          path: release/SHA256SUMS.txt
           if-no-files-found: error
