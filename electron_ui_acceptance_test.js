@@ -29,7 +29,7 @@ if(!write.summary?.history?.tested||!write.summary?.history?.undo||!write.summar
 const read=run('read');
 if(!write.summary?.history?.tested||!write.summary?.history?.undo||!write.summary?.history?.redo) throw new Error('Undo/redo E2E did not pass.');
 if(!Array.isArray(write.summary?.exportFiles)||write.summary.exportFiles.length<7) throw new Error('Expected export evidence list missing.');
-if(read.version!=='4.1.1') throw new Error(`Unexpected app version: ${read.version}`);
+if(read.version!=='4.1.2') throw new Error(`Unexpected app version: ${read.version}`);
 if(read.data?.organization?.name!=='Grafix 4.1 UI E2E') throw new Error('Organization did not persist.');
 for(const key of ['branches','teachers','people','rooms','lessons','activities','resources','constraints']) {
   if(!Array.isArray(read.data[key])||!read.data[key].length) throw new Error(`Persisted ${key} missing.`);
