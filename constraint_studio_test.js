@@ -1,0 +1,16 @@
+'use strict';
+const assert=require('assert');
+const C=require('./constraint-studio');
+const db={branches:[{id:1,name:'B1'}],constraints:[],teachers:[],people:[],rooms:[],lessons:[]};
+const c1=C.create(db,{name:'Запрет вторника 18',target:'activity',targetId:1,kind:'forbidden_period',hardness:'HARD',value:{slots:[{day:'Вторник',start:'18:00',end:'20:00'}]}});
+assert.strictEqual(db.constraints.length,1);
+let r=C.evaluateActivity(db,{id:1,branchId:1,day:'Вторник',time:'18:30',duration:60,teacherId:2,groupId:3,roomId:4},{lessons:[]});
+assert.strictEqual(r.hardViolations,1);
+C.disable(db,c1.id);
+r=C.evaluateActivity(db,{id:1,branchId:1,day:'Вторник',time:'18:30',duration:60,teacherId:2,groupId:3,roomId:4},{lessons:[]});
+assert.strictEqual(r.hardViolations,0);
+const c2=C.create(db,{name:'Поздно',target:'activity',targetId:1,kind:'preferred_period',hardness:'SOFT',weight:17,value:{slots:[{day:'Понедельник',start:'10:00',end:'12:00'}]}});
+r=C.evaluateActivity(db,{id:1,branchId:1,day:'Вторник',time:'18:30',duration:60},{lessons:[]});
+assert.strictEqual(r.softPenalty,17);
+assert.strictEqual(C.remove(db,c2.id),true);
+console.log('Constraint Studio CRUD/evaluation: PASS');

@@ -1,0 +1,2 @@
+'use strict';
+try{importScripts('scheduling-engine.js');self.onmessage=function(e){try{if(e.data?.cmd==='generate'){const started=Date.now();const profile=e.data.profile||'all';const result=profile==='all'?SchedulingEngine.generateVariants(e.data.db,e.data.seed):SchedulingEngine.generateVariants(e.data.db,e.data.seed,[profile]);self.postMessage({ok:true,elapsedMs:Date.now()-started,variants:result});}}catch(error){self.postMessage({ok:false,error:String(error?.message||error)})}}}catch(error){self.postMessage({ok:false,error:String(error?.message||error)})}

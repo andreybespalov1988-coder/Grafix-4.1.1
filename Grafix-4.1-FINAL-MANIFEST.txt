@@ -1,0 +1,68 @@
+GRAFIX 4.1.1 FINAL MANIFEST
+=============================
+
+Product version: 4.1.1
+Product name: Grafix
+AppId: ru.grafiks.schedule
+
+Electron: 38.8.6
+Electron-builder: 26.15.3
+Solver: or-tools-wasm 0.9.1
+
+Historical frozen baseline reference:
+9fafea338723a6fdfb9beeb06165fd3555c37fdc
+The supplied Frozen SOURCE directory did not contain .git metadata; the historical SHA is retained as a reference, not fabricated as a parent commit.
+
+Local Git snapshot before final manifest commit:
+8c49e1b
+
+Production root:
+C:\GRAFIX-FINAL-ACCEPTANCE\FINAL-PRODUCTION-BUILD\Grafix-4.1.1
+
+Installer:
+C:\GRAFIX-FINAL-ACCEPTANCE\FINAL-PRODUCTION-BUILD\Grafix-4.1.1\Grafix-4.1-Setup.exe
+SHA-256: 8B137CA53533AD6CBB20E42DD2E7E2F938FE00565A4B29C157D5E084328E75F5
+
+Portable:
+C:\GRAFIX-FINAL-ACCEPTANCE\FINAL-PRODUCTION-BUILD\Grafix-4.1.1\Grafix-4.1-Portable.exe
+SHA-256: D88442A287FF97D91348F4AEC65C38C0B0B4688169E54ADDF12FA8036DCB31A2
+
+Unpacked:
+C:\GRAFIX-FINAL-ACCEPTANCE\FINAL-PRODUCTION-BUILD\Grafix-4.1.1\win-unpacked
+app.asar SHA-256: 5889086C45DB3B82E260E9C7901E08B18945669DB47C4C2F5ED8505715D239DF
+
+Acceptance:
+Full runtime regression: PASS
+Electron UI: PASS
+Solver worker: PASS
+Performance: PASS
+Installer: PASS
+Portable: PASS
+Update 4.1.0 -> 4.1.1: PASS
+Uninstall/reinstall: PASS
+Persistence: PASS
+Security: PASS
+
+OpenRouter:
+Implementation: PASS
+Automatic initialization: PASS
+No-key handling: PASS
+Real invalid-key request: PASS
+Real authenticated openrouter/free response: NOT TESTED — OPENROUTER_API_KEY absent on acceptance machine
+
+Security configuration:
+contextIsolation=true
+nodeIntegration=false
+sandbox=false (existing compatibility limitation retained)
+navigation allowlist enabled
+permission requests denied
+import size guard enabled
+source maps excluded from package
+QA acceptance files excluded from package
+no hardcoded OpenRouter key material
+
+npm audit:
+Production dependencies (--omit=dev): 0 vulnerabilities.
+Full audit reports 2 high findings in the mandated Electron 38.8.6 dependency chain; Electron was intentionally not upgraded.
+
+Final production artifacts are built from the Frozen SOURCE after clean npm ci and final regression.

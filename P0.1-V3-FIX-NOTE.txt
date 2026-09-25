@@ -1,0 +1,12 @@
+GRAFIX 4.1 P0.1 V3 FIX
+
+Windows acceptance V2 reached the real solver foundation and exposed a second integration defect:
+SolverAdapter.solveAsync() wrapped the CP-SAT result array in { solver, variants, selected }, while
+main/preload, benchmark and the integration tests consume the async solver boundary as an array.
+
+Fix:
+- solver-adapter.js now returns the CP-SAT result array directly from solveAsync().
+- solver_async_contract_test.js guards this API contract.
+- solver_foundation_test.js includes the contract test.
+
+Windows acceptance has NOT yet been re-run after this fix. P0.1 remains unaccepted until the V3 Windows run completes.

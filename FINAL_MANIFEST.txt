@@ -1,0 +1,40 @@
+GRAFIX 4.1 P0.1 — FINAL MANIFEST
+
+Supplied source artifact:
+GRAFIX-4.1-P0.1-SOLVER-FOUNDATION-SOURCE-v2.zip
+SHA-256: a83374ef8e6c473d766eb22fbaf5d40b0760009ce50ad36ae995686c6bba6b7f
+
+Completion commit:
+3cb931c201b9f29d842b86b0607a7ef85d513018 (local completion commit created from the supplied source; supplied ZIP itself had no git metadata).
+
+Final source tree fingerprint:
+aabebcb93d619b77ed6320e35addd8fad285e544ec0a0b20e3b7d794ebe020d4
+
+package.json SHA-256: 495c7b7a2ee46a02e9b9abb0ed443544e844a46e674b5605f39ef84ad906f20a
+or-tools-wasm: 0.9.1
+package-lock.json SHA-256: NOT PRESENT / NOT GENERATABLE IN CURRENT LINUX ENVIRONMENT
+
+Changed product files:
+solver-cp-sat-worker.js SHA-256: 59dedc2a31d86b510082264a3d51ec5c4b77687c7d77e6edfed923928c04f65e
+package.json SHA-256: 495c7b7a2ee46a02e9b9abb0ed443544e844a46e674b5605f39ef84ad906f20a
+solver_foundation_test.js SHA-256: 33211737e5d9ac955d9b8a872d096443e14866b8972ccab3e4f820934753b536
+
+New verification files:
+solver_cp_sat_api_smoke_test.js SHA-256: 7fe8517a5a677b7fd7a64c1f1776eb7128f57ad4b020be9af2d0d820dd653104
+solver_cp_sat_worker_api_static_test.js SHA-256: 23807607bdd2e214376904f2e1f66640013c8c8e7777f12a774e1254e5648b9d
+
+Local execution environment:
+Node: v22.16.0
+npm: 10.9.2
+
+Results:
+npm run test:all: PASS
+solver model/regression checks: PASS
+worker API static audit: PASS
+local CP-SAT runtime: BLOCKED by unavailable npm registry
+real Windows CP-SAT import: PASS based on supplied pre-fix evidence
+post-fix Windows solver foundation: NOT TESTED here
+post-fix Electron solver: NOT TESTED here
+post-fix Windows packaging: NOT TESTED here
+
+P0.2 Constraint Studio: NOT STARTED

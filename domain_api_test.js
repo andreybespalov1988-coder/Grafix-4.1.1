@@ -1,0 +1,15 @@
+'use strict';
+const assert = require('assert');
+const { createDomainApi } = require('./domain-api');
+const db = {activeBranchId:1,organization:{name:'Test'},branches:[{id:1,name:'B1'},{id:2,name:'B2'}],teachers:[],people:[],rooms:[],lessons:[],activities:[],resources:[],constraints:[],substitutions:[],history:[]};
+const api = createDomainApi();
+const t = api.create(db,'teacher',{name:'Teacher',branchId:1});
+assert.strictEqual(api.get(db,'teacher',t.id).name,'Teacher');
+const a = api.create(db,'activity',{type:'performance',title:'Show',branchId:1,activeMinutes:90,setupMinutes:15,teardownMinutes:10});
+assert.strictEqual(a.type,'performance');
+const r = api.create(db,'resource',{type:'stage',name:'Main Stage',branchId:1,branchIds:[1,2],shared:true});
+assert.deepStrictEqual(api.list(db,'resource',2)[0].branchIds,[1,2]);
+const c = api.create(db,'constraint',{name:'Block',target:'activity',targetId:a.id,kind:'forbidden_period',hardness:'HARD',value:{slots:[{day:'Понедельник',start:'10:00',end:'11:00'}]}});
+assert.strictEqual(api.get(db,'constraint',c.id).hardness,'HARD');
+const snap = api.exportSnapshot(db); const db2={}; api.importSnapshot(db2,snap); assert.strictEqual(db2.activities.length,1);
+console.log('Domain API foundation: PASS');

@@ -1,0 +1,7 @@
+{"activities":10,"algorithmMs":31,"algorithmRssMb":8.2,"completion":100,"hardViolations":0,"quality":100,"constraintValidationMs":0.1,"advisorMs":22.1,"advisorProblems":0,"xlsxExportMs":1.1,"xlsxBytes":6432}
+{"activities":30,"algorithmMs":64.5,"algorithmRssMb":0.5,"completion":100,"hardViolations":0,"quality":99,"constraintValidationMs":0,"advisorMs":56.7,"advisorProblems":0,"xlsxExportMs":2.3,"xlsxBytes":14272}
+{"activities":50,"algorithmMs":120.7,"algorithmRssMb":0.1,"completion":100,"hardViolations":0,"quality":94,"constraintValidationMs":0,"advisorMs":162.3,"advisorProblems":0,"xlsxExportMs":0.5,"xlsxBytes":22112}
+{"activities":100,"algorithmMs":328.4,"algorithmRssMb":8,"completion":100,"hardViolations":0,"quality":89,"constraintValidationMs":0,"advisorMs":344.2,"advisorProblems":0,"xlsxExportMs":1,"xlsxBytes":41753}
+{"activities":200,"algorithmMs":1145.9,"algorithmRssMb":0,"completion":100,"hardViolations":0,"quality":79,"constraintValidationMs":0,"advisorMs":1078.7,"advisorProblems":0,"xlsxExportMs":2.1,"xlsxBytes":82353}
+{"activities":500,"algorithmMs":6128.9,"algorithmRssMb":17,"completion":100,"hardViolations":0,"quality":47,"constraintValidationMs":0,"advisorMs":6491.9,"advisorProblems":0,"xlsxExportMs":4.8,"xlsxBytes":204153}
+FINAL PERFORMANCE BENCHMARK: PASS

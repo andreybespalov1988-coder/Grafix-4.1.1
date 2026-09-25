@@ -1,0 +1,14 @@
+'use strict';
+const assert=require('assert');
+const {buildCandidateSpec}=require('./solver-cp-sat-model');
+const {feasibleDb,lockedDb,infeasibleDb}=require('./solver_foundation_fixtures');
+const feasible=buildCandidateSpec(feasibleDb());
+assert.strictEqual(feasible.diagnostics.length,0);
+assert.ok(feasible.candidates.length>0);
+assert.ok(feasible.resourceBuckets.length>0);
+const locked=buildCandidateSpec(lockedDb());
+assert.strictEqual(locked.diagnostics.length,0);
+assert.strictEqual(locked.candidates.filter(x=>x.lessonId===1).length,1);
+const impossible=buildCandidateSpec(infeasibleDb());
+assert.ok(impossible.diagnostics.length>0);
+console.log('CP-SAT model translation: PASS');

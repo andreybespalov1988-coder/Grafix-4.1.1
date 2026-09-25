@@ -1,0 +1,1 @@
+'use strict';const assert=require('assert');const {SolverAdapter}=require('./solver-adapter');const s=new SolverAdapter();const r=s.solve({activeBranchId:1,branches:[{id:1}],teachers:[],rooms:[],people:[],lessons:[],scheduleRules:{}});assert(r.solver&&Array.isArray(r.variants));console.log('Solver Adapter: PASS');

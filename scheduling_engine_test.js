@@ -1,0 +1,11 @@
+'use strict';
+const E=require('./scheduling-engine');
+const assert=require('assert');
+const db={activeBranchId:1,branches:[{id:1,name:'Main'}],scheduleRules:{workStart:'09:00',workEnd:'18:00',slotMinutes:30,maxTeacherDailyMinutes:240,maxGroupDailyMinutes:180,maxConsecutiveMinutes:180,allowedDays:['Понедельник','Вторник'],blockedSlots:[],softConstraints:{avoidLate:{enabled:true,after:'17:00',priority:'high'},compact:{enabled:true,priority:'medium'},avoidGaps:{enabled:true,priority:'medium'}}},teachers:[{id:1,branchId:1,name:'Иванов',unavailable:[{day:'Понедельник',start:'12:00',end:'14:00'}]},{id:2,branchId:1,name:'Петров'}],rooms:[{id:1,branchId:1,name:'Зал 1',capacity:20,type:'танцы'},{id:2,branchId:1,name:'Зал 2',capacity:20,type:'вокал'}],people:[{id:1,branchId:1,name:'Группа А',group:'Группа А'}],lessons:[{id:1,branchId:1,title:'Закреплённое',group:'Группа А',groupId:1,teacher:'Иванов',teacherId:1,room:'Зал 1',roomId:1,day:'Понедельник',time:'09:00',duration:60,locked:true},{id:2,branchId:1,title:'Свободное',group:'Группа А',groupId:1,teacher:'Иванов',teacherId:1,room:'Зал 1',roomId:1,duration:60,locked:false},{id:3,branchId:1,title:'Ещё',group:'Группа А',groupId:1,teacher:'Петров',teacherId:2,room:'Зал 2',roomId:2,duration:60,locked:false}]};
+const vars=E.generateVariants(db); assert.strictEqual(vars.length,10); assert.deepStrictEqual(vars.map(v=>v.profile),['balanced','teacher','group','room','minimalGaps','minimalMovement','compactDay','fairLoad','branchUtilization','custom']); assert(vars.every(v=>v.lessons.some(x=>x.id===1&&x.locked&&x.time==='09:00'))); assert(vars.every(v=>v.metrics.hardConflicts===0));
+const bad={...db,lessons:[...db.lessons,{id:4,branchId:1,title:'Конфликт',group:'Группа А',groupId:1,teacher:'Иванов',teacherId:1,room:'Зал 1',roomId:1,day:'Понедельник',time:'09:30',duration:60}]}; assert(E.conflicts(bad,1).length>0);
+const ex=E.explain(db,2,1); assert(ex&&Array.isArray(ex.solutions));
+const subs=E.findSubstitutes(db,2,1); assert(subs.length===1&&subs[0].teacher.id===2);
+const period=E.periodOccurrences({days:['Понедельник'],exceptions:[]},'2026-09-07','2026-09-21'); assert(period.length===3);
+const x=E.makeXlsx([{День:'Понедельник',Время:'10:00',Занятие:'Тест'}]); assert(x instanceof Uint8Array&&x.length>100);
+console.log('Scheduling Engine 4.1 profiles/calendar tests: PASS');

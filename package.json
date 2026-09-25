@@ -1,0 +1,135 @@
+{
+  "name": "grafiks-schedule",
+  "version": "4.1.1",
+  "description": "Grafix 4.1 — локальная профессиональная система управления расписанием, ресурсами и ограничениями",
+  "main": "main.js",
+  "author": "Графикс",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dist:dir": "electron-builder --dir",
+    "dist:linux": "electron-builder --linux AppImage",
+    "dist:win": "electron-builder --win nsis portable",
+    "build:win": "electron-builder --win nsis portable",
+    "check": "node scripts_check.js",
+    "check:static": "node scripts_check.js",
+    "test": "node smoke_test.js",
+    "verify": "npm run test:all",
+    "test:storage": "node persistence_storage_test.js",
+    "test:restart": "node persistence_restart_test.js",
+    "test:all": "npm run check:static && npm test && npm run test:storage && npm run test:restart && npm run test:a4 && npm run test:ui && npm run test:release && npm run test:public && npm run test:print-editor && npm run test:dashboard-teachers && npm run test:generator && npm run test:data-model && npm run test:scheduling-engine && npm run test:calendar-engine && npm run test:solver-adapter && npm run test:ai-service && npm run test:openrouter && npm run test:electron-ai-ui && npm run test:electron-full-ui && npm run test:core41 && npm run test:security",
+    "test:a4": "node a4_print_static_test.js",
+    "test:ui": "node grafiks_ui_static_test.js",
+    "test:release": "node release_static_test.js",
+    "test:public": "node public_runtime_test.js",
+    "test:print-editor": "node print_editor_runtime_test.js",
+    "test:dashboard-teachers": "node dashboard_teacher_runtime_test.js",
+    "test:generator": "node generator_runtime_test.js",
+    "test:data-model": "node data_model_runtime_test.js",
+    "test:scheduling-engine": "node scheduling_engine_test.js",
+    "test:calendar-engine": "node calendar_engine_test.js",
+    "test:solver-adapter": "node solver_adapter_test.js",
+    "test:ai-service": "node ai_service_test.js",
+    "test:openrouter": "node openrouter_integration_test.js",
+    "test:security": "node security_audit.js",
+    "test:solver-foundation": "node solver_foundation_test.js",
+    "test:electron-solver": "electron electron_solver_worker_test.js",
+    "test:solver-api": "node solver_cp_sat_api_smoke_test.js",
+    "test:activity-model": "node activity_model_test.js",
+    "test:constraint-studio": "node constraint_studio_test.js && node constraint_studio_relationships_test.js",
+    "test:schedule-advisor": "node schedule_advisor_test.js",
+    "test:substitution": "node substitution_engine_test.js && node substitution_lifecycle_test.js",
+    "test:core41": "npm run test:activity-model && npm run test:constraint-studio && npm run test:extended-constraints && npm run test:schedule-advisor && npm run test:substitution && npm run test:domain-api && npm run test:collaboration && npm run test:scheduling-engine && npm run test:calendar-engine",
+    "test:electron-ui": "node electron_ui_acceptance_test.js",
+    "test:electron-ai-ui": "node electron_ai_ui_test.js",
+    "test:electron-full-ui": "node electron_full_ui_test.js",
+    "test:domain-api": "node domain_api_test.js",
+    "test:extended-constraints": "node constraint_studio_kinds_test.js && node cross_branch_resource_test.js",
+    "test:collaboration": "node collaboration_foundation_test.js",
+    "test:performance": "node --expose-gc final_performance_benchmark.js",
+    "test:final-core": "npm run test:all && npm run test:performance"
+  },
+  "devDependencies": {
+    "electron": "38.8.6",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "ru.grafiks.schedule",
+    "productName": "Графикс",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "index.html",
+      "assets/**/*",
+      "main.js",
+      "preload.js",
+      "README.md",
+      "ANALYSIS.md",
+      "FORENSIC_AUDIT.md",
+      "FINAL_TEST_REPORT.md",
+      "storage-manager.js",
+      "RELEASE_NOTES-2.2.0.md",
+      "scheduling-engine.js",
+      "RELEASE_NOTES-3.1.0.md",
+      "calendar-engine.js",
+      "solver-adapter.js",
+      "FINAL_PRODUCT_DESCRIPTION.md",
+      "USER_GUIDE.md",
+      "ADMIN_GUIDE.md",
+      "DEVELOPER_GUIDE.md",
+      "SCHEDULING_ENGINE.md",
+      "AI_GUIDE.md",
+      "COMPETITOR_ANALYSIS.md",
+      "FINAL_AUDIT.md",
+      "CHANGELOG.md",
+      "RELEASE_NOTES.md",
+      "ai-service.js",
+      "ai-ui.js",
+      "solver-cp-sat-model.js",
+      "solver-cp-sat-worker.js",
+      "solver-cp-sat-adapter.js",
+      "activity-model.js",
+      "constraint-studio.js",
+      "schedule-advisor.js",
+      "substitution-engine.js",
+      "FINAL_PERFORMANCE_RESULTS.txt",
+      "domain-api.js",
+      "collaboration-foundation.js",
+      "GRAFIX-4.1-FINAL-AUDIT.md",
+      "GRAFIX-4.1-USER-GUIDE.md",
+      "GRAFIX-4.1-ADMIN-GUIDE.md",
+      "GRAFIX-4.1-RELEASE-NOTES.md",
+      "GRAFIX-4.1-FINAL-ACCEPTANCE-MATRIX.md",
+      "!**/*.map"
+    ],
+    "asar": true,
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Office"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "assets/icon.ico",
+      "artifactName": "Grafix-4.1-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "artifactName": "Grafix-4.1-Setup.${ext}"
+    },
+    "portable": {
+      "artifactName": "Grafix-4.1-Portable.${ext}"
+    }
+  },
+  "dependencies": {
+    "or-tools-wasm": "0.9.1"
+  }
+}

@@ -1,0 +1,11 @@
+'use strict';
+const assert=require('assert');
+const {SolverAdapter}=require('./solver-adapter');
+const s=new SolverAdapter();
+const db={activeBranchId:1,branches:[{id:1}],teachers:[],rooms:[],people:[],lessons:[],scheduleRules:{}};
+const legacy=s.solve(db);
+assert(legacy.solver&&Array.isArray(legacy.variants));
+assert.strictEqual(typeof s.solveAsync,'function');
+assert.strictEqual(typeof s.validate,'function');
+assert.strictEqual(typeof s.generateAlternatives,'function');
+console.log('Solver adapter regression: PASS');

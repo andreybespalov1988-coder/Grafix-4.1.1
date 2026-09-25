@@ -1,0 +1,5 @@
+'use strict';
+const assert=require('assert');
+const E=require('./scheduling-engine');
+const db={activeBranchId:1,branches:[{id:1,name:'Main'}],scheduleRules:{workStart:'09:00',workEnd:'20:00',slotMinutes:30,maxTeacherDailyMinutes:240,maxGroupDailyMinutes:180,maxConsecutiveMinutes:180,allowedDays:['Понедельник','Вторник'],blockedSlots:[],softConstraints:{}},teachers:[{id:10,branchId:1,name:'Иванов',unavailable:[]}],rooms:[{id:20,branchId:1,name:'Зал 1',capacity:20}],people:[{id:30,branchId:1,name:'Группа А',group:'Группа А'}],lessons:[{id:1,branchId:1,title:'Урок 1',group:'Группа А',groupId:30,teacher:'Иванов',teacherId:10,room:'Зал 1',roomId:20,duration:60,locked:true,day:'Понедельник',time:'09:00'},{id:2,branchId:1,title:'Урок 2',group:'Группа А',groupId:30,teacher:'Иванов',teacherId:10,room:'Зал 1',roomId:20,duration:60,locked:false,day:'',time:''}]};
+const r=E.generateVariant(db,'balanced',1); assert(r.lessons.some(x=>x.id===1&&x.time==='09:00')); assert(r.metrics.hardConflicts===0); assert(r.issues.length===0); console.log('Automatic scheduling runtime checks passed.');

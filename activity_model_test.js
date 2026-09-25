@@ -1,0 +1,17 @@
+'use strict';
+const assert=require('assert');
+const A=require('./activity-model');
+const db={branches:[{id:1,name:'B1'},{id:2,name:'B2'}],lessons:[{id:1,branchId:1,title:'Репетиция',teacherId:10,groupId:20,roomId:30,duration:90,day:'Понедельник',time:'10:00'}],teachers:[],rooms:[],people:[]};
+A.ensureModel(db);
+assert.strictEqual(db.activities.length,1);
+assert.strictEqual(db.lessons[0].activityType,'lesson');
+const a=A.addActivity(db,{type:'rehearsal',branchId:1,title:'Спектакль',activeMinutes:120,setupMinutes:30,teardownMinutes:15});
+assert.strictEqual(a.type,'rehearsal');
+assert.strictEqual(A.effectiveDuration(a),165);
+const r=A.addResource(db,{type:'equipment',name:'Световой пульт',branchId:1});
+A.linkSharedResource(db,r.id,2);
+assert.strictEqual(r.shared,true);
+assert.deepStrictEqual(r.branchIds.sort((a,b)=>a-b),[1,2]);
+const presets=A.profilePresets();
+for(const key of ['balanced','teacher','group','room','minimalGaps','minimalMovement','compactDay','fairLoad','branchUtilization','custom']) assert(presets[key]);
+console.log('Activity/Resource model: PASS');
