@@ -1,0 +1,48 @@
+name: Grafix 4.1.2 Windows Production Build
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Verify Electron
+        shell: pwsh
+        run: |
+          $v = (npx electron --version).Trim()
+          if ($v -ne "v38.8.6") { throw "Unexpected Electron version: $v" }
+      - name: UI acceptance
+        run: npm run test:electron-ui
+      - name: Security audit
+        run: npm run test:security
+      - name: Build Windows
+        run: npm run dist:win
+      - name: Verify packaged files
+        shell: pwsh
+        run: |
+          $dir = Join-Path $env:GITHUB_WORKSPACE "release"
+          if (!(Test-Path (Join-Path $dir "Grafix-4.1-Setup.exe"))) { throw "Installer missing" }
+          if (!(Test-Path (Join-Path $dir "Grafix-4.1-Portable.exe"))) { throw "Portable missing" }
+          $asar = Join-Path $dir "win-unpacked/resources/app.asar"
+          if (!(Test-Path $asar)) { throw "app.asar missing" }
+      - name: Upload production artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Grafix-4.1.2-Windows
+          path: |
+            release/Grafix-4.1-Setup.exe
+            release/Grafix-4.1-Portable.exe
+            release/win-unpacked/**
+          if-no-files-found: error
