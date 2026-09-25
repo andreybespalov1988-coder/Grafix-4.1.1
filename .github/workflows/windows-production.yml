@@ -28,7 +28,7 @@ jobs:
       - name: Security audit
         run: npm run test:security
       - name: Build Windows
-        run: npm run dist:win
+        run: npm run dist:win -- --publish never
       - name: Verify packaged files
         shell: pwsh
         run: |
